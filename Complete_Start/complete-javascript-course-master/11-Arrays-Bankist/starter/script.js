@@ -77,6 +77,26 @@ const displayMovements = function (movements) {
   });
 };
 displayMovements(account1.movements);
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
+
+const createUserName = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUserName(accounts);
+console.log(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -107,7 +127,7 @@ displayMovements(account1.movements);
 // console.log(arr.slice(-1)[0]);
 // console.log(arr.at(-1));
 // ========================== Foreach method ===========================
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // console.log(movements);
 // for (const movement of movements) {
 // for (const [i, movement] of movements.entries()) {
@@ -158,7 +178,106 @@ displayMovements(account1.movements);
 //   console.log(`${key} : ${value}`);
 // });
 
-const dogsJulia = [3, 5, 2, 12, 7];
-const dogsKate = [4, 1, 15, 8, 3];
+// ========================= Coding challenge 1 ======================================
 
-function checkDogs() {}
+// const dogsJulia = [3, 5, 2, 12, 7];
+// const dogsKate = [4, 1, 15, 8, 3];
+// dogsJulia.splice(0, 1);
+// const newDogsJulia = dogsJulia.splice(0, 2);
+
+// console.log(newDogsJulia);
+
+// const totalDogs = newDogsJulia.concat(dogsKate);
+// console.log(totalDogs);
+// function checkDogs() {
+//   totalDogs.forEach(function (value, key, arr) {
+//     if (value >= 3) {
+//       console.log(`Dog number ${key} is an adult andit is ${value} years old`);
+//     } else {
+//       console.log(`Dog number ${key} is an puppy andit is ${value} years old`);
+//     }
+//   });
+// }
+// checkDogs();
+
+// ============================ Coding Challenge 2 ===================================
+const dogsJulia2 = [5, 2, 4, 1, 15, 8, 3];
+const dogsKate2 = [16, 6, 10, 5, 6, 1, 4];
+const totalDogs2 = dogsJulia2.concat(dogsKate2);
+
+const calcsHumanAge = ages => {
+  const humnaAge = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+  const adultDogs = humnaAge.filter(age => age >= 18);
+  const averageDogAge = adultDogs.reduce((acc, cur) => {
+    return acc + cur / adultDogs.length;
+  }, 0);
+  console.log('human age', humnaAge);
+  console.log('Adult dogs', adultDogs);
+  console.log("Average dog's Age", averageDogAge);
+};
+calcsHumanAge(totalDogs2);
+
+// ============================ Map method ============================
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map(mov => mov * eurToUsd);
+// console.log(movements);
+// console.log(movementsUSD);
+
+// const movementsUsdfor = [];
+// for (const mov of movements) movementsUsdfor.push(mov * eurToUsd);
+
+// const movementsDescriptions = movements.map(
+//   (mov, i, arr) =>
+//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+//       mov
+//     )}`
+// );
+
+// console.log(movementsDescriptions);
+
+// ============================ Filter Method ===============================
+// const deposits = movements.filter(function (mov) {
+//   return mov > 0;
+// });
+// console.log(movements);
+// console.log(deposits);
+
+// const withdrawals = movements.filter(mov => mov < 0);
+// console.log(withdrawals);
+
+// ============================= Reduce Method ==============================
+
+// // acc : accumulator - keep accumulating value that we want to return (SNOWBALL)
+// // cur: current element of the array
+// // i : index
+// // arr: the entire array
+
+// const balance = movements.reduce((acc, cur, i, arr) => {
+//   console.log(`Iteration ${i} : ${acc}`);
+//   return acc + cur;
+// }, 0);
+
+// // Maximum value
+
+// const max = movements.reduce((acc, mov) => {
+//   if (acc > mov) return acc;
+//   else return mov;
+// }, movements[0]);
+// console.log(max);
+
+// ===================== Chaining method ==========================
+
+const eurToUsd = 1.1;
+
+// Pipeline
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  .map((mov, i, arr) => {
+    console.log(arr);
+    return mov * eurToUsd;
+  })
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositsUSD);
